@@ -23,6 +23,20 @@ View or Controllers can use DTO objects to access data. No need to worry about u
         <h1>{{ $car }}</h1>
     @endforeach
 
+###Installing
+Package can be installed via composer.
+
+###Install Composer
+    curl -sS https://getcomposer.org/installer | php
+
+    Next, update your project's composer.json file to include EZCash:
+
+    {
+        "require": {
+            "sahanh/simpledto": "~1.0"
+        }
+    }
+
 ###Making DTO Object
     use SH\SimpleDTO\DTO;
     
