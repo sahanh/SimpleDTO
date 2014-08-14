@@ -1,0 +1,20 @@
+{
+    "name": "sahanh/simpledto",
+    "description": "Simple DTO object to move data",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sahan H",
+            "email": "sahan@sahanz.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "illuminate/support" : "~4"
+    },
+    "autoload": {
+        "psr-4" : {
+            "SH\\SimpleDTO\\" : "src/"
+        }
+    }
+}
