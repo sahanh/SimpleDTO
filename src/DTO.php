@@ -4,8 +4,10 @@ namespace SH\SimpleDTO;
 use RuntimeException;
 use JsonSerializable;
 use ArrayAccess;
+use IteratorAggregate;
+use ArrayIterator;
 
-class DTO implements JsonSerializable, ArrayAccess
+class DTO implements JsonSerializable, ArrayAccess, IteratorAggregate
 {
     protected $data;
 
@@ -20,7 +22,7 @@ class DTO implements JsonSerializable, ArrayAccess
         return new static($arr);
     }
 
-    public function __construct(array $data = [])
+    protected function __construct(array $data = [])
     {
         $this->data = $data;
     }
@@ -28,6 +30,11 @@ class DTO implements JsonSerializable, ArrayAccess
     public function __get($attr)
     {
         return $this->get($attr);
+    }
+
+    public function __set($attribute, $value)
+    {
+        throw new RuntimeException('Data cannot be modified');
     }
 
     public function get($key, $default = null)
@@ -90,8 +97,21 @@ class DTO implements JsonSerializable, ArrayAccess
         throw new RuntimeException('Data cannot be modified');
     }
 
+    /**
+     * convert data to json
+     * @interface JsonSerializable
+     * @return [type] [description]
+     */
     public function jsonSerialize()
     {
-        return json_encode($this->data);
+        return $this->data;
+    }
+
+    /**
+     * @interface IteratorAggregate
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->data);
     }
 }
