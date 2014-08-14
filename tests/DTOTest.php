@@ -17,6 +17,9 @@ class DTOTest extends PHPUnit_Framework_Testcase
         $this->assertInstanceOf('SH\SimpleDTO\DTO', $this->dto->get('name'));
         $this->assertSame('cake', $this->dto->get('name.slug'));
         $this->assertSame('Sugar', $this->dto->get('topping.2.type'));
+
+        $this->assertSame('cake', $this->dto->name->slug);
+        $this->assertSame('Sugar', $this->dto->topping[2]->type);
     }
 
     public function testNestedDTO()
@@ -34,9 +37,7 @@ class DTOTest extends PHPUnit_Framework_Testcase
 
     public function testNonExistingItems()
     {
-        $d = $this->dto;
-        $this->assertNull($d['not_in']['slug']['but_nested']);
-        $this->assertNull($d->get('not_in.slug.but_nested'));
+        $this->assertNull($this->dto->get('not_in.slug.but_nested'));
     }
 
     /**
@@ -94,4 +95,10 @@ class DTOTest extends PHPUnit_Framework_Testcase
         $this->dto['name'] = 's';
     }
 
+    public function testStdClass()
+    {
+        $data = $this->data;
+        $d2   = DTO::make(json_decode($data));
+        $this->assertSame($this->dto->getData(), $d2->getData());
+    }
 }
