@@ -95,6 +95,11 @@ class DTOTest extends PHPUnit_Framework_Testcase
         $this->dto['name'] = 's';
     }
 
+    public function testCount()
+    {
+        $this->assertEquals(6, count($this->dto));
+    }
+
     public function testStdClass()
     {
         $data = $this->data;

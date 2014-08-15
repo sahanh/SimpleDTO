@@ -6,8 +6,9 @@ use JsonSerializable;
 use ArrayAccess;
 use IteratorAggregate;
 use ArrayIterator;
+use Countable;
 
-class DTO implements JsonSerializable, ArrayAccess, IteratorAggregate
+class DTO implements JsonSerializable, ArrayAccess, IteratorAggregate, Countable
 {
     protected $data;
 
@@ -105,6 +106,11 @@ class DTO implements JsonSerializable, ArrayAccess, IteratorAggregate
     public function jsonSerialize()
     {
         return $this->data;
+    }
+
+    public function count($mode = COUNT_NORMAL)
+    {
+        return count($this->data);
     }
 
     /**
