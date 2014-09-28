@@ -106,4 +106,18 @@ class DTOTest extends PHPUnit_Framework_Testcase
         $d2   = DTO::make(json_decode($data));
         $this->assertSame($this->dto->getData(), $d2->getData());
     }
+
+    public function testNestedArrayLoopsWithDTOObjects()
+    {
+        $arr = DTO::make(['first' => ['name' => 'Sahan'], 'second']);
+
+        $return = [];
+        foreach ($arr as $index => $value) {
+            $return[$index] = $value;
+        }
+
+        $this->assertInstanceOf('SH\SimpleDTO\DTO', $return['first']);
+        $this->assertSame('Sahan', $return['first']->name);
+        $this->assertSame('second', $return[0]);
+    }
 }

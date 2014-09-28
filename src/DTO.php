@@ -118,6 +118,6 @@ class DTO implements JsonSerializable, ArrayAccess, IteratorAggregate, Countable
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->data);
+        return new DTOIterator($this);
     }
 }
