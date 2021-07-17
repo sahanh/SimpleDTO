@@ -8,14 +8,29 @@
             "email": "sahan@sahanz.com"
         }
     ],
-    "minimum-stability": "stable",
     "require": {
-        "php": ">=5.4.0",
-        "illuminate/support" : "~5"
+        "php": "^7.4|^8.0",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "illuminate/support": "^8.50"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.4.2",
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4" : {
             "SH\\SimpleDTO\\" : "src/"
         }
-    }
+    },
+    "autoload-dev": {
+        "psr-4" : {
+            "SH\\SimpleDTO\\Tests\\" : "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

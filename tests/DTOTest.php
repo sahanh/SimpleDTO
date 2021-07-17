@@ -1,15 +1,20 @@
 <?php
-use SH\SimpleDTO\DTO;
 
-class DTOTest extends PHPUnit_Framework_Testcase
+namespace SH\SimpleDTO\Tests;
+
+use RuntimeException;
+use SH\SimpleDTO\DTO;
+use PHPUnit\Framework\TestCase;
+
+class DTOTest extends TestCase
 {
     protected $dto;
     protected $data;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->data = require 'dataset.php';
-        $this->dto  = DTO::make(json_decode($this->data, true));
+        $this->dto = DTO::make(json_decode($this->data, true));
     }
 
     public function testGet()
@@ -41,13 +46,13 @@ class DTOTest extends PHPUnit_Framework_Testcase
     }
 
     /**
-     * if an array, should be able to iterate
+     * if an array, should be able to iterate.
      */
     public function testArrayIterating()
     {
         $compare = ['slug', 'cake', 'label', 'Cake'];
 
-        $check   = [];
+        $check = [];
         foreach ($this->dto['name'] as $key => $value) {
             $check[] = $key;
             $check[] = $value;
@@ -57,13 +62,13 @@ class DTOTest extends PHPUnit_Framework_Testcase
     }
 
     /**
-     * if an array, should be able to iterate
+     * if an array, should be able to iterate.
      */
     public function testGetArrayIterating()
     {
         $compare = ['slug', 'cake', 'label', 'Cake'];
 
-        $check   = [];
+        $check = [];
         foreach ($this->dto->get('name') as $key => $value) {
             $check[] = $key;
             $check[] = $value;
@@ -77,21 +82,19 @@ class DTOTest extends PHPUnit_Framework_Testcase
         $this->assertSame($this->data, json_encode($this->dto));
     }
 
-    /**
-     * @expectedException RuntimeException
-     * @expectedExceptionMessage Data cannot be modified
-     */
     public function testDataModifyThroughSet()
     {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Data cannot be modified');
+
         $this->dto->name = 's';
     }
 
-    /**
-     * @expectedException RuntimeException
-     * @expectedExceptionMessage Data cannot be modified
-     */
     public function testDataModifyThroughArrayAccess()
     {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Data cannot be modified');
+
         $this->dto['name'] = 's';
     }
 
@@ -103,7 +106,8 @@ class DTOTest extends PHPUnit_Framework_Testcase
     public function testStdClass()
     {
         $data = $this->data;
-        $d2   = DTO::make(json_decode($data));
+        $d2 = DTO::make(json_decode($data));
+
         $this->assertSame($this->dto->getData(), $d2->getData());
     }
 
@@ -112,11 +116,12 @@ class DTOTest extends PHPUnit_Framework_Testcase
         $arr = DTO::make(['first' => ['name' => 'Sahan'], 'second']);
 
         $return = [];
+
         foreach ($arr as $index => $value) {
             $return[$index] = $value;
         }
 
-        $this->assertInstanceOf('SH\SimpleDTO\DTO', $return['first']);
+        $this->assertInstanceOf(DTO::class, $return['first']);
         $this->assertSame('Sahan', $return['first']->name);
         $this->assertSame('second', $return[0]);
     }
