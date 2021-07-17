@@ -20,10 +20,10 @@ jobs:
     strategy:
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: [ '8.0' ]
-        dependency-stability: [ prefer-stable ]
+        php-versions: ['8.0']
+        dependency-stability: [prefer-stable, prefer-lower]
 
-    name: P${{ matrix.php-versions }} - L${{ matrix.laravel }} - ${{ matrix.dependency-stability }} - ${{ matrix.operating-system}}
+    name: PHP ${{ matrix.php-versions }} - ${{ matrix.dependency-stability }} - ${{ matrix.operating-system}}
 
     steps:
     - uses: actions/checkout@v2

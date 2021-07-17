@@ -60,7 +60,7 @@ class DTO implements JsonSerializable, ArrayAccess, IteratorAggregate, Countable
     {
         $arr = json_decode(json_encode($data), true);
 
-        return new static($arr);
+        return new self($arr);
     }
 
     /**
@@ -76,7 +76,7 @@ class DTO implements JsonSerializable, ArrayAccess, IteratorAggregate, Countable
         $data = Arr::get($this->data, $key, $default);
 
         if (is_array($data)) {
-            return new static($data);
+            return new self($data);
         }
 
         return $data;
@@ -154,9 +154,9 @@ class DTO implements JsonSerializable, ArrayAccess, IteratorAggregate, Countable
      *
      * @interface JsonSerializable
      *
-     * @return string
+     * @return mixed
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->data;
     }
