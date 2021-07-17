@@ -1,49 +1,103 @@
 <?php
+
+declare(strict_types=1);
+
 namespace SH\SimpleDTO;
 
 use Iterator;
 
 class DTOIterator implements Iterator
 {
-    private $position = 0;
-    private $dto      = false;
-    private $data     = [];
+    /**
+     * The key of the current element.
+     *
+     * @var mixed
+     */
+    protected $position = 0;
 
+    /**
+     * The instance of the DTO.
+     *
+     * @var \SH\SimpleDTO\DTO|bool
+     */
+    protected $dto = false;
+
+    /**
+     * The data from the DTO instance.
+     *
+     * @var array
+     */
+    protected array $data = [];
+
+    /**
+     * Create new DTOIterator instance.
+     *
+     * @param \SH\SimpleDTO\DTO $dto
+     *
+     * @return void
+     */
     public function __construct(DTO $dto)
     {
-        $this->dto  = $dto;
+        $this->dto = $dto;
         $this->data = $dto->getData();
     }
 
-    public function rewind()
+    /**
+     * Rewind the Iterator to the first element.
+     *
+     * @return void
+     */
+    public function rewind(): void
     {
         reset($this->data);
+
         $this->position = key($this->data);
     }
 
-    public function current()
+    /**
+     * Return the current element.
+     *
+     * @return mixed
+     */
+    public function current(): mixed
     {
         return $this->dto->get($this->position);
     }
 
-    public function key()
+    /**
+     * Return the key of the current element.
+     *
+     * @return mixed
+     */
+    public function key(): mixed
     {
         return $this->position;
     }
 
-    public function next()
+    /**
+     * Move forward to next element.
+     *
+     * @return void
+     */
+    public function next(): void
     {
         next($this->data);
         $key = key($this->data);
 
-        $this->position = $key === null ? false : $key;
+        $this->position = null === $key ? false : $key;
     }
 
-    public function valid()
+    /**
+     * Checks if current position is valid.
+     *
+     * @return bool
+     */
+    public function valid(): bool
     {
-        if ($this->position === false)
+        if (false === $this->position) {
             return false;
-        else
-            return $this->dto->offsetExists($this->position);
+        }
+
+        return $this->dto->offsetExists($this->position);
     }
 }
